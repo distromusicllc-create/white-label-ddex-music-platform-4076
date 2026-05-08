@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Music, LayoutDashboard, Disc3, BarChart3, Plus, LogOut, Menu, X, DollarSign, Settings, HelpCircle } from 'lucide-react';
+import { Music, LayoutDashboard, Disc3, BarChart3, Plus, LogOut, Menu, X, DollarSign, Settings, HelpCircle, CreditCard } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -16,6 +16,7 @@ const navItems = [
   { to: '/dashboard/analytics', icon: BarChart3, label: 'Analytics', isSpotify: false },
   { to: '/dashboard/earnings', icon: DollarSign, label: 'Earnings', isSpotify: false },
   { to: '/dashboard/spotify-pitching', icon: SpotifyIcon, label: 'Spotify Pitching', isSpotify: true },
+  { to: '/pricing', icon: CreditCard, label: 'Upgrade Plan', isSpotify: false },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings', isSpotify: false },
   { to: '/dashboard/help', icon: HelpCircle, label: 'Help', isSpotify: false },
 ];

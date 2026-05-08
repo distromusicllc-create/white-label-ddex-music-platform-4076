@@ -30,6 +30,9 @@ export default function Landing() {
             <span className="font-display font-bold text-lg">Distro Music</span>
           </div>
           <div className="flex items-center gap-3">
+            <Link to="/pricing">
+              <Button variant="ghost" size="sm">Pricing</Button>
+            </Link>
             <Link to="/login">
               <Button variant="ghost" size="sm">Sign In</Button>
             </Link>
@@ -79,6 +82,44 @@ export default function Landing() {
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-500 text-sm">
               <Palette className="w-4 h-4" />
               Profile Customization
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing CTA */}
+      <section className="py-20 px-6 bg-gradient-to-r from-purple-600 to-pink-500 text-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
+            Unlimited Distribution, One Low Price
+          </h2>
+          <p className="text-lg md:text-xl mb-8 opacity-95">
+            Pay only R459.99/year for unlimited uploads and get your music into stores 10-20x faster than any other distributor.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/pricing">
+              <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 px-8">
+                View Pricing
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                Start Free Trial
+              </Button>
+            </Link>
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm opacity-90">
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4" />
+              <span>10-20x Faster Delivery</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4" />
+              <span>150+ Stores Worldwide</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              <span>Keep 100% of Royalties</span>
             </div>
           </div>
         </div>

@@ -16,6 +16,7 @@ import Earnings from "./pages/Earnings";
 import Settings from "./pages/Settings";
 import SpotifyPitching from "./pages/SpotifyPitching";
 import HelpSupport from "./pages/HelpSupport";
+import Pricing from "./pages/Pricing";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/dashboard/releases" element={<ProtectedRoute><Releases /></ProtectedRoute>} />
             <Route path="/dashboard/releases/new" element={<ProtectedRoute><NewRelease /></ProtectedRoute>} />
