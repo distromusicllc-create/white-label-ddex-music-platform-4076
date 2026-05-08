@@ -14,6 +14,7 @@ import DeliveryPipeline from "./pages/DeliveryPipeline";
 import Analytics from "./pages/Analytics";
 import Earnings from "./pages/Earnings";
 import Settings from "./pages/Settings";
+import SpotifyPitching from "./pages/SpotifyPitching";
 import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import NotFound from "./pages/NotFound";
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/dashboard/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
             <Route path="/dashboard/earnings" element={<ProtectedRoute><Earnings /></ProtectedRoute>} />
             <Route path="/dashboard/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            <Route path="/dashboard/spotify-pitching" element={<ProtectedRoute><SpotifyPitching /></ProtectedRoute>} />
             <Route path="/dashboard/help" element={<ProtectedRoute><HelpSupport /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

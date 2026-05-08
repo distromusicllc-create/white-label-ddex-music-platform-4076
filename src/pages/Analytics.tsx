@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { BarChart3, TrendingUp, DollarSign, Headphones, Download } from 'lucide-react';
+import { BarChart3, TrendingUp, DollarSign, Headphones, Download, Users, Globe, Clock, Music } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import DashboardLayout from '@/components/DashboardLayout';
 import db from '@/lib/shared/kliv-database.js';
-import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 interface AnalyticsData {
   period: string;
@@ -315,6 +315,158 @@ export default function Analytics() {
           )}
         </CardContent>
       </Card>
+
+      {/* Listener Demographics */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <Card className="border-border">
+          <CardHeader>
+            <CardTitle className="font-display text-sm flex items-center gap-2">
+              <Users className="w-4 h-4 text-primary" />
+              Listener Demographics
+            </CardTitle>
+            <CardDescription>Age distribution of your audience</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={[
+                { name: '18-24', listeners: 35, fill: '#8b5cf6' },
+                { name: '25-34', listeners: 45, fill: '#6366f1' },
+                { name: '35-44', listeners: 25, fill: '#3b82f6' },
+                { name: '45-54', listeners: 15, fill: '#0ea5e9' },
+                { name: '55+', listeners: 10, fill: '#06b6d4' },
+              ]}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <XAxis dataKey="name" className="text-xs" />
+                <YAxis className="text-xs" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }}
+                  labelStyle={{ color: 'hsl(var(--foreground))' }}
+                  formatter={(value: number) => [`${value}%`, 'Listeners']}
+                />
+                <Bar dataKey="listeners" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border">
+          <CardHeader>
+            <CardTitle className="font-display text-sm flex items-center gap-2">
+              <Globe className="w-4 h-4 text-primary" />
+              Top Countries
+            </CardTitle>
+            <CardDescription>Where your listeners are located</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {[
+                { country: 'United States', streams: 4520, flag: '🇺🇸', percent: 35 },
+                { country: 'United Kingdom', streams: 2890, flag: '🇬🇧', percent: 22 },
+                { country: 'Germany', streams: 1670, flag: '🇩🇪', percent: 13 },
+                { country: 'Canada', streams: 1290, flag: '🇨🇦', percent: 10 },
+                { country: 'Australia', streams: 970, flag: '🇦🇺', percent: 8 },
+              ].map((item) => (
+                <div key={item.country} className="flex items-center gap-3">
+                  <span className="text-2xl">{item.flag}</span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium">{item.country}</span>
+                      <span className="text-xs text-muted-foreground">{item.streams.toLocaleString()} streams</span>
+                    </div>
+                    <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-primary rounded-full" 
+                        style={{ width: `${item.percent}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Listening Habits */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <Card className="border-border">
+          <CardHeader>
+            <CardTitle className="font-display text-sm flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" />
+              Peak Listening Times
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {[
+                { time: '6 AM - 12 PM', percent: 15 },
+                { time: '12 PM - 6 PM', percent: 35 },
+                { time: '6 PM - 12 AM', percent: 40 },
+                { time: '12 AM - 6 AM', percent: 10 },
+              ].map((slot) => (
+                <div key={slot.time} className="space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">{slot.time}</span>
+                    <span className="font-medium">{slot.percent}%</span>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" 
+                      style={{ width: `${slot.percent}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border">
+          <CardHeader>
+            <CardTitle className="font-display text-sm flex items-center gap-2">
+              <Music className="w-4 h-4 text-primary" />
+              Most Listened Tracks
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {[
+                { track: 'Midnight Dreams', streams: 12450 },
+                { track: 'Electric Sunrise', streams: 9870 },
+                { track: 'Ocean Waves', streams: 8230 },
+                { track: 'City Lights', streams: 6150 },
+              ].map((item) => (
+                <div key={item.track} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                  <span className="text-sm font-medium">{item.track}</span>
+                  <span className="text-sm text-muted-foreground">{item.streams.toLocaleString()}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border">
+          <CardHeader>
+            <CardTitle className="font-display text-sm">Listener Retention</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="text-center">
+                <p className="text-3xl font-bold text-green-500">72%</p>
+                <p className="text-xs text-muted-foreground mt-1">Skip Rate (Below Average)</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold text-primary">3.2</p>
+                <p className="text-xs text-muted-foreground mt-1">Avg Streams Per Listener</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold text-purple-500">45%</p>
+                <p className="text-xs text-muted-foreground mt-1">Save Rate</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Sample Data Notice */}
       {analytics.length === 0 && !loading && (

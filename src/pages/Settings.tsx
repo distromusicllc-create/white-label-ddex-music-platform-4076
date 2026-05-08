@@ -4,24 +4,36 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { User, Mail, MapPin, Save, Key } from 'lucide-react';
+import { User, Mail, MapPin, Save, Key, Upload, Instagram, Twitter, Youtube, Globe as GlobeIcon, Music2, Link2 } from 'lucide-react';
 import DashboardLayout from '@/components/DashboardLayout';
+import {content} from '@/lib/shared/kliv-content.js';
 
 export default function Settings() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [profile, setProfile] = useState({
     artistName: '',
     labelName: '',
     contactEmail: user?.email || '',
     phone: '',
     website: '',
+    bio: '',
+    profileImage: '',
     country: '',
     address: '',
     city: '',
     state: '',
     zipCode: '',
+    socialLinks: {
+      instagram: '',
+      twitter: '',
+      youtube: '',
+      soundcloud: '',
+      bandcamp: '',
+    }
   });
 
   const handleSave = async (e: React.FormEvent) => {
@@ -38,7 +50,30 @@ export default function Settings() {
     }
   };
 
-  const update = (field: string, value: string) => setProfile(prev => ({ ...prev, [field]: value }));
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const result = await content.uploadFile(file, '/content/profile-images/');
+      setProfile(prev => ({ ...prev, profileImage: result.path }));
+      toast.success('Profile image uploaded successfully!');
+    } catch (error) {
+      toast.error('Failed to upload image');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const updateField = (field: string, value: string) => setProfile(prev => ({ ...prev, [field]: value }));
+  
+  const updateSocial = (platform: string, value: string) => {
+    setProfile(prev => ({
+      ...prev,
+      socialLinks: { ...prev.socialLinks, [platform]: value }
+    }));
+  };
 
   return (
     <DashboardLayout>
@@ -48,6 +83,48 @@ export default function Settings() {
       </div>
 
       <form onSubmit={handleSave} className="space-y-6 max-w-4xl">
+        {/* Profile Image */}
+        <Card className="border-border">
+          <CardHeader>
+            <CardTitle className="font-display flex items-center gap-2">
+              <Upload className="w-5 h-5 text-primary" /> Profile Image
+            </CardTitle>
+            <CardDescription>Upload your artist profile photo</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-6">
+              <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-border">
+                {profile.profileImage ? (
+                  <img src={profile.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <Music2 className="w-8 h-8 text-muted-foreground" />
+                )}
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="profileImage" className="cursor-pointer">
+                  <Input
+                    id="profileImage"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage}
+                  />
+                  <Button type="button" variant="outline" size="sm" disabled={uploadingImage} asChild>
+                    <span>
+                      <Upload className="w-4 h-4 mr-2" />
+                      {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                    </span>
+                  </Button>
+                </Label>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Recommended: 1000x1000px JPG or PNG. Max 5MB.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Profile Information */}
         <Card className="border-border">
           <CardHeader>
@@ -63,7 +140,7 @@ export default function Settings() {
                 <Input
                   id="artistName"
                   value={profile.artistName}
-                  onChange={e => update('artistName', e.target.value)}
+                  onChange={e => updateField('artistName', e.target.value)}
                   placeholder="Your artist or band name"
                   required
                 />
@@ -73,8 +150,87 @@ export default function Settings() {
                 <Input
                   id="labelName"
                   value={profile.labelName}
-                  onChange={e => update('labelName', e.target.value)}
+                  onChange={e => updateField('labelName', e.target.value)}
                   placeholder="Your label (if applicable)"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="bio">Artist Bio</Label>
+              <Textarea
+                id="bio"
+                value={profile.bio}
+                onChange={e => updateField('bio', e.target.value)}
+                placeholder="Tell your fans about your music, influences, and journey..."
+                rows={4}
+                className="resize-none"
+              />
+              <p className="text-xs text-muted-foreground mt-2">
+                This bio will be visible on your public profile and streaming platforms.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Social Links */}
+        <Card className="border-border">
+          <CardHeader>
+            <CardTitle className="font-display flex items-center gap-2">
+              <Link2 className="w-5 h-5 text-primary" /> Social Links
+            </CardTitle>
+            <CardDescription>Connect your social media profiles</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="instagram" className="flex items-center gap-2">
+                  <Instagram className="w-4 h-4" /> Instagram
+                </Label>
+                <Input
+                  id="instagram"
+                  value={profile.socialLinks.instagram}
+                  onChange={e => updateSocial('instagram', e.target.value)}
+                  placeholder="@yourusername"
+                />
+              </div>
+              <div>
+                <Label htmlFor="twitter" className="flex items-center gap-2">
+                  <Twitter className="w-4 h-4" /> Twitter/X
+                </Label>
+                <Input
+                  id="twitter"
+                  value={profile.socialLinks.twitter}
+                  onChange={e => updateSocial('twitter', e.target.value)}
+                  placeholder="@yourusername"
+                />
+              </div>
+              <div>
+                <Label htmlFor="youtube" className="flex items-center gap-2">
+                  <Youtube className="w-4 h-4" /> YouTube
+                </Label>
+                <Input
+                  id="youtube"
+                  value={profile.socialLinks.youtube}
+                  onChange={e => updateSocial('youtube', e.target.value)}
+                  placeholder="Your channel URL"
+                />
+              </div>
+              <div>
+                <Label htmlFor="soundcloud">SoundCloud</Label>
+                <Input
+                  id="soundcloud"
+                  value={profile.socialLinks.soundcloud}
+                  onChange={e => updateSocial('soundcloud', e.target.value)}
+                  placeholder="Your profile URL"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <Label htmlFor="bandcamp">Bandcamp</Label>
+                <Input
+                  id="bandcamp"
+                  value={profile.socialLinks.bandcamp}
+                  onChange={e => updateSocial('bandcamp', e.target.value)}
+                  placeholder="Your bandcamp URL"
                 />
               </div>
             </div>
@@ -97,7 +253,7 @@ export default function Settings() {
                   id="contactEmail"
                   type="email"
                   value={profile.contactEmail}
-                  onChange={e => update('contactEmail', e.target.value)}
+                  onChange={e => updateField('contactEmail', e.target.value)}
                   placeholder="your@email.com"
                   required
                 />
@@ -108,18 +264,20 @@ export default function Settings() {
                   id="phone"
                   type="tel"
                   value={profile.phone}
-                  onChange={e => update('phone', e.target.value)}
+                  onChange={e => updateField('phone', e.target.value)}
                   placeholder="+1 (555) 123-4567"
                 />
               </div>
             </div>
             <div>
-              <Label htmlFor="website">Website</Label>
+              <Label htmlFor="website" className="flex items-center gap-2">
+                <GlobeIcon className="w-4 h-4" /> Website
+              </Label>
               <Input
                 id="website"
                 type="url"
                 value={profile.website}
-                onChange={e => update('website', e.target.value)}
+                onChange={e => updateField('website', e.target.value)}
                 placeholder="https://yourwebsite.com"
               />
             </div>
@@ -140,7 +298,7 @@ export default function Settings() {
               <Input
                 id="address"
                 value={profile.address}
-                onChange={e => update('address', e.target.value)}
+                onChange={e => updateField('address', e.target.value)}
                 placeholder="123 Music Street"
               />
             </div>
@@ -150,7 +308,7 @@ export default function Settings() {
                 <Input
                   id="city"
                   value={profile.city}
-                  onChange={e => update('city', e.target.value)}
+                  onChange={e => updateField('city', e.target.value)}
                   placeholder="Los Angeles"
                 />
               </div>
@@ -159,7 +317,7 @@ export default function Settings() {
                 <Input
                   id="state"
                   value={profile.state}
-                  onChange={e => update('state', e.target.value)}
+                  onChange={e => updateField('state', e.target.value)}
                   placeholder="CA"
                 />
               </div>
@@ -168,7 +326,7 @@ export default function Settings() {
                 <Input
                   id="zipCode"
                   value={profile.zipCode}
-                  onChange={e => update('zipCode', e.target.value)}
+                  onChange={e => updateField('zipCode', e.target.value)}
                   placeholder="90001"
                 />
               </div>
@@ -178,7 +336,7 @@ export default function Settings() {
               <select
                 id="country"
                 value={profile.country}
-                onChange={e => update('country', e.target.value)}
+                onChange={e => updateField('country', e.target.value)}
                 className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
                 required
               >
