@@ -11,13 +11,13 @@ const SpotifyIcon = ({ className }: { className?: string }) => (
 );
 
 const navItems = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
-  { to: '/dashboard/releases', icon: Disc3, label: 'Releases' },
-  { to: '/dashboard/analytics', icon: BarChart3, label: 'Analytics' },
-  { to: '/dashboard/earnings', icon: DollarSign, label: 'Earnings' },
-  { to: '/dashboard/spotify-pitching', icon: SpotifyIcon, label: 'Spotify Pitching' },
-  { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
-  { to: '/dashboard/help', icon: HelpCircle, label: 'Help' },
+  { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', isSpotify: false },
+  { to: '/dashboard/releases', icon: Disc3, label: 'Releases', isSpotify: false },
+  { to: '/dashboard/analytics', icon: BarChart3, label: 'Analytics', isSpotify: false },
+  { to: '/dashboard/earnings', icon: DollarSign, label: 'Earnings', isSpotify: false },
+  { to: '/dashboard/spotify-pitching', icon: SpotifyIcon, label: 'Spotify Pitching', isSpotify: true },
+  { to: '/dashboard/settings', icon: Settings, label: 'Settings', isSpotify: false },
+  { to: '/dashboard/help', icon: HelpCircle, label: 'Help', isSpotify: false },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -54,7 +54,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   : 'text-sidebar-foreground hover:bg-sidebar-accent/50'
               }`}
             >
-              {item.icon === SpotifyIcon ? (
+              {item.isSpotify ? (
                 <item.icon className="w-4 h-4 text-green-500" />
               ) : (
                 <item.icon className="w-4 h-4" />

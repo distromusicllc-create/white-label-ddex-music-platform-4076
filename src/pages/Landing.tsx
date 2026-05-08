@@ -9,14 +9,14 @@ const SpotifyIcon = ({ className }: { className?: string }) => (
 );
 
 const features = [
-  { icon: Sparkles, title: 'Instant Registration', desc: 'Sign up in seconds and start distributing your music immediately. No waiting, no hassle.' },
-  { icon: UserCircle, title: 'Manage Your Artist Profile', desc: 'Customize your artist profile with bio, photos, and social links to connect with fans.' },
-  { icon: SpotifyIcon, title: 'Pitch to Spotify Editors', desc: 'Submit your tracks directly to Spotify\'s playlist editors for consideration on curated playlists.' },
-  { icon: BarChart3, title: 'Listener Analytics', desc: 'Deep insights into your audience demographics, listening habits, and geographic distribution.' },
-  { icon: Palette, title: 'Customize Your Profile', desc: 'Personalize your artist image with custom branding, colors, and professional profile management.' },
-  { icon: Globe, title: 'Global Distribution', desc: 'Deliver to 150+ DSPs including Spotify, Apple Music, Amazon, and more.' },
-  { icon: Zap, title: 'DDEX Compliant', desc: 'Industry-standard metadata delivery ensuring your releases are properly formatted.' },
-  { icon: Disc3, title: 'Release Management', desc: 'Manage singles, EPs, and albums with full metadata control and real-time updates.' },
+  { icon: Sparkles, title: 'Instant Registration', desc: 'Sign up in seconds and start distributing your music immediately. No waiting, no hassle.', isSpotify: false },
+  { icon: UserCircle, title: 'Manage Your Artist Profile', desc: 'Customize your artist profile with bio, photos, and social links to connect with fans.', isSpotify: false },
+  { icon: SpotifyIcon, title: 'Pitch to Spotify Editors', desc: 'Submit your tracks directly to Spotify\'s playlist editors for consideration on curated playlists.', isSpotify: true },
+  { icon: BarChart3, title: 'Listener Analytics', desc: 'Deep insights into your audience demographics, listening habits, and geographic distribution.', isSpotify: false },
+  { icon: Palette, title: 'Customize Your Profile', desc: 'Personalize your artist image with custom branding, colors, and professional profile management.', isSpotify: false },
+  { icon: Globe, title: 'Global Distribution', desc: 'Deliver to 150+ DSPs including Spotify, Apple Music, Amazon, and more.', isSpotify: false },
+  { icon: Zap, title: 'DDEX Compliant', desc: 'Industry-standard metadata delivery ensuring your releases are properly formatted.', isSpotify: false },
+  { icon: Disc3, title: 'Release Management', desc: 'Manage singles, EPs, and albums with full metadata control and real-time updates.', isSpotify: false },
 ];
 
 export default function Landing() {
@@ -100,7 +100,7 @@ export default function Landing() {
             {features.slice(0, 4).map((f) => (
               <div key={f.title} className="p-6 rounded-xl border border-border bg-card hover:border-primary/30 transition-all hover:shadow-lg">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  {f.icon === SpotifyIcon ? (
+                  {f.isSpotify ? (
                     <f.icon className="w-6 h-6 text-green-500" />
                   ) : (
                     <f.icon className="w-6 h-6 text-primary" />
@@ -116,7 +116,7 @@ export default function Landing() {
             {features.slice(4).map((f) => (
               <div key={f.title} className="p-6 rounded-xl border border-border bg-card hover:border-primary/30 transition-all hover:shadow-lg">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  {f.icon === SpotifyIcon ? (
+                  {f.isSpotify ? (
                     <f.icon className="w-6 h-6 text-green-500" />
                   ) : (
                     <f.icon className="w-6 h-6 text-primary" />
