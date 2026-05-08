@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(230 15% 15%);
+
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(230 15% 15%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(230 15% 15%);
+
+  --color-primary: hsl(265 80% 60%);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  --color-secondary: hsl(230 15% 93%);
+  --color-secondary-foreground: hsl(230 15% 15%);
+
+  --color-muted: hsl(230 15% 93%);
+  --color-muted-foreground: hsl(230 10% 50%);
+
+  --color-accent: hsl(265 60% 95%);
+  --color-accent-foreground: hsl(265 80% 40%);
+
+  --color-destructive: hsl(0 72% 55%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+
+  --color-border: hsl(230 15% 90%);
+  --color-input: hsl(230 15% 90%);
+  --color-ring: hsl(265 80% 60%);
+
+  --color-sidebar-background: hsl(0 0% 98%);
+  --color-sidebar-foreground: hsl(230 10% 40%);
+  --color-sidebar-primary: hsl(265 80% 60%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(265 60% 95%);
+  --color-sidebar-accent-foreground: hsl(265 80% 40%);
+  --color-sidebar-border: hsl(230 15% 90%);
+  --color-sidebar-ring: hsl(265 80% 60%);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.625rem;
+}
+
+.dark {
+  --color-background: hsl(230 20% 7%);
+  --color-foreground: hsl(220 15% 90%);
+
+  --color-card: hsl(230 18% 10%);
+  --color-card-foreground: hsl(220 15% 90%);
+
+  --color-popover: hsl(230 18% 10%);
+  --color-popover-foreground: hsl(220 15% 90%);
+
+  --color-primary: hsl(265 85% 65%);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  --color-secondary: hsl(230 15% 15%);
+  --color-secondary-foreground: hsl(220 15% 85%);
+
+  --color-muted: hsl(230 15% 15%);
+  --color-muted-foreground: hsl(230 10% 50%);
+
+  --color-accent: hsl(265 40% 18%);
+  --color-accent-foreground: hsl(265 85% 75%);
+
+  --color-destructive: hsl(0 62% 40%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+
+  --color-border: hsl(230 15% 16%);
+  --color-input: hsl(230 15% 16%);
+  --color-ring: hsl(265 85% 65%);
+
+  --color-sidebar-background: hsl(230 20% 8%);
+  --color-sidebar-foreground: hsl(220 10% 60%);
+  --color-sidebar-primary: hsl(265 85% 65%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(265 40% 15%);
+  --color-sidebar-accent-foreground: hsl(265 85% 75%);
+  --color-sidebar-border: hsl(230 15% 14%);
+  --color-sidebar-ring: hsl(265 85% 65%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-purple-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent;
+  }
+  .glass {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10;
+  }
+  .glow-purple {
+    box-shadow: 0 0 40px -10px hsl(265 85% 65% / 0.4);
+  }
+}
